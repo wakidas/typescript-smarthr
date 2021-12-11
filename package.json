@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/wakidas/typescript-smarthr#readme",
   "devDependencies": {
+    "@types/node": "^16.4.13",
     "typescript": "^4.3.5"
   }
 }
