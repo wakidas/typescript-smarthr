@@ -1,7 +1,17 @@
+const printLine = (text: string, breakLine: boolean = true) => {
+  process.stdout.write(text + (breakLine ? '\n' : ''))
+}
+
+const promptInput = async (text: string) => {
+  printLine(`\n${text}\n>`, false)
+  const input: string = await new Promise((resolve) => process.stdin.once('data', (data) => resolve(data.toString())))
+
+  return input.trim()
+}
 class HitAndBlow {
-  answerSource = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-  answer: string[] = []
-  tryCount = 0
+  private readonly answerSource = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+  private answer: string[] = []
+  private tryCount = 0
 
   setting() {
     const answerLength = 3
@@ -21,7 +31,7 @@ class HitAndBlow {
 
     if (result.hit !== this.answer.length) {
       //不正解だったら続ける
-      printLine('---\nHit: ${result.hit}\nBlow: ${result.blow}\n---')
+      printLine(`---\nHit: ${result.hit}\nBlow: ${result.blow}\n---`)
       this.tryCount += 1
       await this.play()
     } else {
@@ -30,7 +40,7 @@ class HitAndBlow {
     }
   }
 
-  check(input: string[]) {
+  private check(input: string[]) {
     let hitCount = 0
     let blowCount = 0
 
@@ -46,6 +56,11 @@ class HitAndBlow {
       hit: hitCount,
       blow: blowCount
     }
+  }
+
+  end() {
+    printLine(`正解です！\n試行回数: ${this.tryCount}回`)
+    process.exit()
   }
 }
 
@@ -65,7 +80,9 @@ class HitAndBlow {
 
 ;(async () => {
   const hitAndBlow = new HitAndBlow()
+  
   hitAndBlow.setting()
   await hitAndBlow.play()
+  hitAndBlow.end()
 })()
 
