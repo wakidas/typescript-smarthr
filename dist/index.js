@@ -138,6 +138,8 @@ var HitAndBlow = /** @class */ (function () {
                 return 3;
             case 'hard':
                 return 4;
+            default:
+                throw new Error(this.mode + "\u306F\u7121\u52B9\u306A\u30E2\u30FC\u30C9\u3067\u3059");
         }
     };
     return HitAndBlow;
